@@ -14,3 +14,6 @@ Start: Mon, 6 May 2015 07:55:00 -0700
 End: Mon, 6 May 2015 09:14:00 -0700 
 Tasks: Project is virtually complete - added data validation for text input, removed "blank" category from showing in the filter menu.
 
+Start: Mon, 6 May 2015 11:55:00 -0700
+End: Mon, 6 May 2015 13:21:00 -0700 
+Tasks: Added more data validation, including removing white space around user-entered categories. Added light styling to visually separate functions. 
