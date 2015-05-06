@@ -5,3 +5,12 @@ Tasks: Quickly realized that I could not use XAMPP, which I had been using to us
 Start: Mon, 5 May 2015 19:45:00 -0700
 End: Mon, 5 May 2015 21:21:00 -0700
 Tasks: Added check-in/out button and delete buttons for all table items. Still no data validation.
+
+Start: Mon, 6 May 2015 06:07:00 -0700
+End: Mon, 6 May 2015 07:16:00 -0700 
+Tasks: Added category filtering.
+
+Start: Mon, 6 May 2015 07:55:00 -0700
+End: Mon, 6 May 2015 09:14:00 -0700 
+Tasks: Project is virtually complete - added data validation for text input, removed "blank" category from showing in the filter menu.
+
