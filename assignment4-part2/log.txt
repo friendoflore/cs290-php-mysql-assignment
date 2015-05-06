@@ -1,3 +1,7 @@
 Start: Mon, 5 May 2015 11:20:00 -0700
 End: Mon, 5 May 2015 13:57:00 -0700
 Tasks: Quickly realized that I could not use XAMPP, which I had been using to use my computer as a local server to access OSU's MySQL database, so I figured out how to set up my personal site and get initial access to the database. Can now submit a new video via GET, delete all videos with POST. No data validation yet.
+
+Start: Mon, 5 May 2015 19:45:00 -0700
+End: Mon, 5 May 2015 21:21:00 -0700
+Tasks: Added check-in/out button and delete buttons for all table items. Still no data validation.

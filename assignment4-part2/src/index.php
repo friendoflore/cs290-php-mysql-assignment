@@ -26,9 +26,6 @@ echo	'</head>
 		<body>';
 	
 
-
-
-
 // Create MySQL table
 
 if(isset($_POST["delete_box"])) {
@@ -37,7 +34,7 @@ if(isset($_POST["delete_box"])) {
 	}
 }
 
-if(!$mysqli->query("CREATE TABLE videos(
+if(!$mysqli->query("CREATE TABLE IF NOT EXISTS videos(
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(255) UNIQUE NOT NULL,
 		category VARCHAR(255),
@@ -45,10 +42,6 @@ if(!$mysqli->query("CREATE TABLE videos(
 		rented  INT NOT NULL)")) {
 	echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
-
-
-
-
 
 
 //Insert elements in to table
@@ -62,23 +55,9 @@ if(!($stmt = $mysqli->prepare("INSERT INTO videos(id, name, category, length, re
 
 
 // Bind and execute prepared statement
+
 $id;
-/*
-$name = "Test_name";
-$cat = "Test_category";
-$length = 10;
-*/
 $rented = 1;
-/*
-if(!$stmt->bind_param("issii", $id, $name, $cat, $length, $rented)) {
-	echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-}
-
-if(!$stmt->execute()) {
-	echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-}
-*/
-
 
 echo '<form action="index.php" method="get" name="add_form">
 	Title: <input type="text" name="name_field"><br>
@@ -99,23 +78,21 @@ if(isset($_GET["name_field"])) {
 	if(!$stmt->execute()) {
 		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 	}
-
 }
 
-
-/*
-
-$name = "Test_name_2";
-$cat = "Test_category_2";
-$length = 11;
-$rented = 1;
-
-if(!$stmt->execute()) {
-	echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+if(isset($_GET["rentalChange"])) {
+	$tmp = $_GET["rentalChange"];
+	if(!$mysqli->query("UPDATE videos SET rented = rented ^ 1 WHERE id = $tmp")) {
+		echo "Update failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
 }
 
-*/
-
+if(isset($_GET["deleteEntry"])) {
+	$tmp = $_GET["deleteEntry"];
+	if(!$mysqli->query("DELETE FROM videos WHERE id = $tmp")) {
+		echo "Deletion failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+}
 
 // Get elements from the table
 
@@ -139,11 +116,11 @@ if(!$stmt->bind_result($out_id, $out_name, $out_cat, $out_length, $out_rented)) 
 
 	echo '<table>
 	<tr>
-	<td>ID
-	<td>Name
-	<td>Category
-	<td>Length
-	<td>Rented
+		<td>ID
+		<td>Name
+		<td>Category
+		<td>Length
+		<td>Rented
 	';
 
 
@@ -153,13 +130,27 @@ while($stmt->fetch()) {
 	echo '<td>' . $out_name;
 	echo '<td>' . $out_cat;
 	echo '<td>' . $out_length;
-	echo '<td>' . $out_rented;
+	if($out_rented == 1) {
+		echo '<td>Available';
+	} else {
+		echo '<td>Checked Out';
+	}
+	echo '<td>
+		<form action="index.php" method="get">
+			<input type="hidden" name="rentalChange" value="' . $out_id . '" />
+			<input type="submit" value="Check In/Out">
+		</form>';
+	echo '<td>
+		<form action="index.php" method="get">
+			<input type="hidden" name="deleteEntry" value="' . $out_id . '" />
+			<input type="submit" value="Delete">
+		</form>';
 }
-echo '</table>';
+echo '</table><br>';
 
 echo '<form action="index.php" method="post">
-		<input type="checkbox" name="delete_box">
-		<input type="submit" name="delete_all" value="Delete All"><br>
+		<input type="hidden" name="delete_box" value="1">
+		<input type="submit" name="delete_all" value="Delete All Videos"><br>
 	</form>';
 
 
